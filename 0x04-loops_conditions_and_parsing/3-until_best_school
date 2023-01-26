@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+name="Best school"
+counter=1
+
+until [ $counter -gt 10 ]
+do
+   echo "$name"
+   ((counter++))
+done

@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
-
-name="Best school"
+# This script is displaying "Best School" 10 times
+name="Best School"
 counter=1
-
 until [ $counter -gt 10 ]
 do
-   echo "$name"
-   ((counter++))
+    echo "$name"
+    ((counter++))
 done

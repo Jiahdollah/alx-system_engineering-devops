@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Stop nginx service
+systemctl stop nginx
+
+# Update default configuration file with port 80
+sed -i 's/8080/80/g' /etc/nginx/sites-available/default
+
+# Start nginx service
+systemctl start nginx
+

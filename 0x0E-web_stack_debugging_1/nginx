@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Check if Nginx is running
+systemctl status nginx > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    echo "Nginx is not running"
+    exit 1
+fi
+
+# Check if Nginx is listening on port 80
+netstat -tuln | grep :80 > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+    echo "Nginx is already listening on port 80"
+    exit 0
+fi
+
+# Fix the configuration file
+sed -i 's/listen 8080 default_server;/listen 80 default_server;/' /etc/nginx/sites-enabled/default
+
+# Restart Nginx
+systemctl restart nginx
+
+# Check if Nginx is now listening on port 80
+netstat -tuln | grep :80 > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    echo "Failed to configure Nginx to listen on port 80"
+    exit 1
+fi
+
+echo "Nginx is now listening on port 80"
+exit 0

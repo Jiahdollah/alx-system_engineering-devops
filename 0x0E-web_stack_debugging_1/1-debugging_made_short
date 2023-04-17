@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # A script that sets the port 80
 sed -i "s/8080/80/g" /etc/nginx/sites-enabled/default
-#Restart nginx
 service nginx restart
 kill -9 "$(cat /run/nginx.pid)"

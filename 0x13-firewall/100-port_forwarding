@@ -1,0 +1,18 @@
+udo apt update
+sudo apt install ufw
+
+# Set default policies
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+
+# Allow SSH (port 22), HTTP (port 80), and HTTPS (port 443) traffic
+sudo ufw allow 22/tcp
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+
+# Enable ufw
+sudo ufw enable
+
+# Add port forwarding rule
+sudo ufw route allow proto tcp from any to any port 8080 -> 127.0.0.1 port 80
+

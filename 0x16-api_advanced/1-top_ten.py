@@ -1,31 +1,21 @@
+#!/usr/bin/python3
+""" print hot posts on a given Reddit subreddit."""
 import requests
 
+
 def top_ten(subreddit):
-        """Print the titles of the first 10 hot posts in the given subreddit."""
-            url = f"https://www.reddit.com/r/{subreddit}/hot.json"
-                headers = {
-                                "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
-                                    }
-                    
-                    response = requests.get(url, headers=headers, allow_redirects=False)
-                        
-                            if response.status_code == 404:
-                                        print("None")
-                                                return
-                                                
-                                                try:
-                                                            data = response.json().get("data")
-                                                                    if "children" in data:
-                                                                                    for post in data["children"][:10]:
-                                                                                                        print(post["data"]["title"])
-                                                                                                            except Exception as e:
-                                                                                                                        print("An error occurred:", e)
-
-                                                                                                                        if __name__ == "__main__":
-                                                                                                                                import sys
-                                                                                                                                    
-                                                                                                                                        if len(sys.argv) < 2:
-                                                                                                                                                    print("Please pass an argument for the subreddit to search.")
-                                                                                                                                                        else:
-                                                                                                                                                                    top_ten(sys.argv[1])
-
+    """Print the titles of the 10 hottest posts on a given subreddit."""
+    url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
+    headers = {
+        "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
+    }
+    params = {
+        "limit": 10
+    }
+    response = requests.get(url, headers=headers, params=params,
+                            allow_redirects=False)
+    if response.status_code == 404:
+        print("None")
+        return
+    results = response.json().get("data")
+    [print(c.get("data").get("title")) for c in results.get("children")]
